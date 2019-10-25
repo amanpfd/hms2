@@ -1,0 +1,59 @@
+Hotel Table
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ HOTEL_ID                                  NOT NULL NUMBER
+ CITY                                      NOT NULL VARCHAR2(20)
+ HOTEL_NAME                                         VARCHAR2(20)
+ ADDRESS                                            VARCHAR2(50)
+ DESCRIPTION                                        VARCHAR2(50)
+ AVG_RATE_PER_NIGHT                                 NUMBER(10,2)
+ PHONE_NO1                                          VARCHAR2(11)
+ PHONE_NO2                                          VARCHAR2(11)
+ RATING                                             VARCHAR2(10)
+ EMAIL                                              VARCHAR2(25)
+ FAX                                                VARCHAR2(15)
+
+
+Users Table
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ USER_ID                                   NOT NULL NUMBER
+ PASSWORD                                           VARCHAR2(8)
+ ROLE                                               VARCHAR2(10)
+ USER_NAME                                          VARCHAR2(20)
+ MOBILE_NO                                          VARCHAR2(10)
+ PHONE                                              VARCHAR2(10)
+ ADDRESS                                            VARCHAR2(25)
+ EMAIL                                              VARCHAR2(15)
+
+Bookingdetails Table
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ BOOKING_ID                                NOT NULL NUMBER
+ ROOM_ID                                   NOT NULL NUMBER	// foreign key references to room_id of roomdetails
+ USER_ID                                   NOT NULL NUMBER	// foreign key references to user_id of users
+ BOOKEDFROM                                         DATE
+ BOOKEDTO                                           DATE
+ NO_OF_ADULTS                                       NUMBER
+ NO_OF_CHILDREN                                     NUMBER
+ AMOUNT                                             NUMBER(6,2)
+ HOTEL_ID                                  NOT NULL NUMBER	// foreign key references to hotel_id of hotel
+ BOOKINGDATE                                        DATE
+
+Roomdetails Table
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROOM_ID                                   NOT NULL NUMBER	
+ HOTEL_ID                                  NOT NULL NUMBER	// foreign key references to hotel_id of hotel
+ ROOM_NO                                            VARCHAR2(5)
+ ROOM_TYPE                                          VARCHAR2(20)
+ PER_NIGHT_RATE                                     NUMBER(6,2)
+ AVAILABILITY                                       NUMBER(1)
+
+//Sequences
+hseq start with 1001;		// for hotel_id
+bseq start with 1;		// for booking_id
+useq start with 1111;		// for user_id
+rseq start with 101;		// for room_id
