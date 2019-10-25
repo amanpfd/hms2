@@ -53,8 +53,13 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public boolean validateLogin(String userId, String password) throws UserNotFoundException {
-		return cdao.validateLogin(userId, password);
+	public boolean validateLogin(String userId, String password){
+		try {
+			boolean vl = cdao.validateLogin(userId, password);
+			return vl;
+		} catch (UserNotFoundException e) {
+			return false;
+		}
 	}
 
 	@Override
@@ -114,12 +119,7 @@ public class CustomerServiceImpl implements CustomerService {
 		return roomTypes;
 	}
 
-	@Override
-	public boolean validateRole(String role) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	
 	@Override
 	public boolean validateUserId(int userId) {
 		// TODO Auto-generated method stub
@@ -131,5 +131,6 @@ public class CustomerServiceImpl implements CustomerService {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 }

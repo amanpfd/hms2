@@ -3,6 +3,7 @@ package com.cg.ui;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -366,7 +367,6 @@ public class UserInterface {
 			option--;
 		} while (!userService.validateNumber(option, index - 2));
 		selectedType = types.get(option);
-		Room room = userService.assignRoomFromType(selectedType, hotel);
 
 		do {
 			System.out.print("Enter no. of adults (max-2): ");
@@ -376,18 +376,30 @@ public class UserInterface {
 			System.out.print("Enter no. of children (max-2): ");
 			children = console.nextInt();
 		} while (!userService.validateNumber(children, 2));
+		
+			Room room;
 		do {
 			do {
 				System.out.print("Enter starting date ('dd/mm/yyyy') : ");
 				dateFrom = console.next();
-				bookedFrom = LocalDate.parse(dateFrom, formatter);
+				try {
+					bookedFrom = LocalDate.parse(dateFrom, formatter);
+				} catch (DateTimeParseException e) {
+					bookedFrom = null;
+				}
 			} while (!userService.validateDate(bookedFrom));
 			do {
 				System.out.print("Enter ending date ('dd/mm/yyyy') : ");
 				dateTo = console.next();
-				bookedTo = LocalDate.parse(dateTo, formatter);
+				try {
+					bookedTo = LocalDate.parse(dateTo, formatter);
+				} catch (DateTimeParseException e) {
+					bookedTo = null;
+				}
 			} while (!userService.validateDate(bookedTo));
-		} while (userService.isRoomAvailable(bookedFrom, bookedTo, roomId));
+			//throws room not found exception
+			room = userService.assignRoomFromType(selectedType, hotel, bookedTo, bookedFrom);
+		} while (room==null);
 		amount = userService.calculateAmount(room, bookedFrom, bookedTo);
 		System.out.println("Amount: " + amount);
 

@@ -36,11 +36,9 @@ public interface CustomerService {
 
 	boolean isRoomAvailable(LocalDate checkIn, LocalDate checkOut, int roomId) throws BookingNotFoundException;
 
-	public boolean validateLogin(String username, String password) throws UserNotFoundException;
+	public boolean validateLogin(String username, String password);
 
 	List<Hotel> findHotelByName(String hotelName) throws HotelNotFoundException;
-
-	boolean validateRole(String role);
 
 	boolean validateUserId(int userId);
 
@@ -48,7 +46,7 @@ public interface CustomerService {
 
 	boolean validateNumber(int select, int i);
 
-	Room assignRoomFromType(String selectedType, Hotel hotel);
+	Room assignRoomFromType(String selectedType, Hotel hotel, LocalDate bookedTo, LocalDate bookedFrom);
 
 	double calculateAmount(Room room, LocalDate bookedFrom, LocalDate bookedTo);
 
@@ -81,6 +79,21 @@ public interface CustomerService {
 
 	default boolean validateHotelName(String hotelName) {
 		return hotelName.matches(hotelnameRule);
+	}
+	
+	default boolean validateRole(String role) {
+		if(role.equalsIgnoreCase("customer") || role.equalsIgnoreCase("hotel sraff") || role.equalsIgnoreCase("admin")) {
+			return true;
+		}
+		else 
+			return false;
+	}
+
+	default boolean validateDate(LocalDate date) {
+		if(date==null)
+			return false;
+		else
+			return true;
 	}
 
 }
